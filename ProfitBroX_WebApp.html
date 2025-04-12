@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>ProfitBroX — WebApp</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background-color: #111; color: #fff; }
+        h1 { color: #00ff99; }
+        .signal-box { border: 1px solid #00ff99; padding: 15px; margin-top: 20px; border-radius: 8px; background-color: #1a1a1a; }
+        .label { color: #ccc; }
+        .error { color: #ff4444; }
+    </style>
+</head>
+<body>
+    <h1>ProfitBroX WebApp (LIVE)</h1>
+    <p>Подключено к серверу сигналов:</p>
+    <div class="signal-box">
+        <p><span class="label">Валютная пара:</span> <span id="pair">Загрузка...</span></p>
+        <p><span class="label">Направление:</span> <span id="direction">Загрузка...</span></p>
+        <p><span class="label">Время входа:</span> <span id="entry">Загрузка...</span></p>
+        <p><span class="label">Время закрытия:</span> <span id="exit">Загрузка...</span></p>
+        <p class="error" id="error" style="display: none;"></p>
+    </div>
+
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", () => {
+            async function fetchSignal() {
+                const signalBox = document.querySelector('.signal-box');
+                const errorElement = document.getElementById('error');
+
+                try {
+                    const response = await fetch("https://profitbrox-api.koyeb.app/signal");
+                    if (!response.ok) {
+                        throw new Error("Сервер недоступен или вернул ошибку: " + response.status);
+                    }
+                    const data = await response.json();
+
+                    document.getElementById("pair").innerText = data.pair || "Неизвестно";
+                    document.getElementById("direction").innerText = data.direction || "Неизвестно";
+                    document.getElementById("entry").innerText = data.entry_time || "Неизвестно";
+                    document.getElementById("exit").innerText = data.exit_time || "Неизвестно";
+                    errorElement.style.display = 'none';
+                } catch (error) {
+                    const mockData = {
+                        pair: ["EUR/USD", "USD/JPY", "GBP/USD"][Math.floor(Math.random() * 3)],
+                        direction: Math.random() > 0.5 ? "Покупка" : "Продажа",
+                        entry_time: new Date().toLocaleTimeString(),
+                        exit_time: new Date(Date.now() + 3600000).toLocaleTimeString()
+                    };
+
+                    document.getElementById("pair").innerText = mockData.pair;
+                    document.getElementById("direction").innerText = mockData.direction;
+                    document.getElementById("entry").innerText = mockData.entry_time;
+                    document.getElementById("exit").innerText = mockData.exit_time;
+                    errorElement.innerText = "Ошибка API: " + error.message + ". Используются тестовые данные.";
+                    errorElement.style.display = 'block';
+                }
+            }
+
+            fetchSignal();
+            setInterval(fetchSignal, 5000);
+        });
+    </script>
+</body>
+</html>
