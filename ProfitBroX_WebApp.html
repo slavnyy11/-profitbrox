@@ -7,9 +7,16 @@
     <style>
         body { font-family: Arial, sans-serif; padding: 20px; background-color: #111; color: #fff; }
         h1 { color: #00ff99; }
+        h2 { color: #00ccff; margin-top: 30px; }
         .signal-box { border: 1px solid #00ff99; padding: 15px; margin-top: 20px; border-radius: 8px; background-color: #1a1a1a; }
+        .crypto-bots-section { border: 1px solid #00ccff; padding: 15px; margin-top: 20px; border-radius: 8px; background-color: #1a1a2a; }
+        .bot-item { background-color: #2a2a3a; padding: 10px; margin: 10px 0; border-radius: 5px; border-left: 3px solid #00ccff; }
+        .bot-name { color: #00ccff; font-weight: bold; font-size: 1.1em; }
+        .bot-description { color: #ccc; margin: 5px 0; }
+        .bot-features { color: #aaa; font-size: 0.9em; }
         .label { color: #ccc; }
         .error { color: #ff4444; }
+        .highlight { color: #ffaa00; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -21,6 +28,13 @@
         <p><span class="label">Время входа:</span> <span id="entry">Загрузка...</span></p>
         <p><span class="label">Время закрытия:</span> <span id="exit">Загрузка...</span></p>
         <p class="error" id="error" style="display: none;"></p>
+    </div>
+
+    <h2>🤖 Лучшие Криптоботы и ИИ для Торговли Фьючерсами</h2>
+    <div class="crypto-bots-section">
+        <div id="crypto-bots-list">
+            <!-- Crypto bots will be populated by JavaScript -->
+        </div>
     </div>
 
     <script type="text/javascript">
@@ -58,8 +72,87 @@
                 }
             }
 
+            function loadCryptoBots() {
+                const cryptoBots = [
+                    {
+                        name: "3Commas",
+                        description: "Профессиональная платформа для автоматической торговли с ИИ",
+                        features: "• Фьючерсы на Binance, Bybit, OKX • Smart Trading • DCA боты • Grid боты • Копирование сделок"
+                    },
+                    {
+                        name: "TradeSanta",
+                        description: "ИИ-управляемые торговые боты для криптовалютных фьючерсов",
+                        features: "• Автоматические long/short позиции • Технический анализ ИИ • Risk management • Grid и DCA стратегии"
+                    },
+                    {
+                        name: "Pionex",
+                        description: "Биржа с встроенными торговыми ботами и ИИ анализом",
+                        features: "• 18+ встроенных ботов • Фьючерсы Grid Bot • Leveraged Grid • Spot-Futures Arbitrage"
+                    },
+                    {
+                        name: "Bitsgap",
+                        description: "Комплексная платформа с ИИ для автоматической торговли",
+                        features: "• Futures trading signals • Smart orders • Portfolio tracking • Demo trading • Multi-exchange"
+                    },
+                    {
+                        name: "Cryptohopper",
+                        description: "Облачные торговые боты с машинным обучением",
+                        features: "• Template strategies • AI-powered signals • Social trading • Futures support • Marketplace стратегий"
+                    },
+                    {
+                        name: "HaasOnline",
+                        description: "Продвинутая платформа с ИИ и машинным обучением",
+                        features: "• Safeties и Insurances • Advanced backtesting • Futures arbitrage • Custom indicators • Genetic algorithm optimization"
+                    },
+                    {
+                        name: "Gunbot",
+                        description: "Настраиваемые торговые боты с ИИ стратегиями",
+                        features: "• 25+ стратегий • Futures trading • Telegram integration • TradingView signals • Advanced protection"
+                    },
+                    {
+                        name: "Shrimpy",
+                        description: "Автоматизированная торговля и управление портфелем",
+                        features: "• Portfolio rebalancing • Copy trading • API integrations • Futures support • Social features"
+                    }
+                ];
+
+                const botsList = document.getElementById('crypto-bots-list');
+                botsList.innerHTML = '';
+
+                cryptoBots.forEach(bot => {
+                    const botElement = document.createElement('div');
+                    botElement.className = 'bot-item';
+                    botElement.innerHTML = `
+                        <div class="bot-name">${bot.name}</div>
+                        <div class="bot-description">${bot.description}</div>
+                        <div class="bot-features">${bot.features}</div>
+                    `;
+                    botsList.appendChild(botElement);
+                });
+
+                // Add a summary note
+                const summaryElement = document.createElement('div');
+                summaryElement.style.marginTop = '20px';
+                summaryElement.style.padding = '10px';
+                summaryElement.style.backgroundColor = '#2a2a1a';
+                summaryElement.style.borderRadius = '5px';
+                summaryElement.style.borderLeft = '3px solid #ffaa00';
+                summaryElement.innerHTML = `
+                    <div class="highlight">💡 Рекомендации:</div>
+                    <div style="color: #ccc; margin-top: 5px;">
+                        • Для начинающих: 3Commas, TradeSanta, Pionex<br>
+                        • Для профессионалов: HaasOnline, Gunbot<br>
+                        • Для социальной торговли: Cryptohopper, Shrimpy<br>
+                        • Всегда используйте демо-режим перед реальной торговлей<br>
+                        • Никогда не инвестируйте больше, чем можете позволить себе потерять
+                    </div>
+                `;
+                botsList.appendChild(summaryElement);
+            }
+
             fetchSignal();
             setInterval(fetchSignal, 5000);
+            loadCryptoBots();
         });
     </script>
 </body>
